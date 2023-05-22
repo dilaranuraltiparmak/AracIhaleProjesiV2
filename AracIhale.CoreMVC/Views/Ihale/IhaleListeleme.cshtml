@@ -1,0 +1,155 @@
+﻿@model IEnumerable<AracIhale.CoreMVC.Models.VM.IhaleListesi>
+@{
+    int index = 1;
+}
+
+<form class="bg-white rounded p-3" action="@Url.Action("IhaleListeFiltrele", "Ihale")" method="post">
+    <h4 style="color:dimgrey;">Kriterler</h4>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <label for="ihaleAdi" class="form-label">İhale Adı</label>
+            <input type="text" class="form-control" id="ihaleAdi" name="ihaleAdi" placeholder="İhale Adı">
+        </div>
+        <div class="col-md-4 mb-4">
+            <label for="aracTuru" class="form-label">Bireysel/Kurumsal</label>
+            <select class="form-control" id="aracTuru" name="aracTuru">
+                <option value="">Seçiniz...</option>
+                <option value="1">Bireysel</option>
+                <option value="2">Kurumsal</option>
+            </select>
+        </div>
+        <div class="col-md-4 mb-4">
+            <label for="aracDurumu" class="form-label">Statüsü</label>
+            <select class="form-control" id="aracDurumu" name="aracDurumu">
+                <option value="">Seçiniz...</option>
+                <option value="1">Başlamadı</option>
+                <option value="2">Başladı</option>
+                <option value="3">Bitti</option>
+                <option value="4">İptal</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-12 d-flex justify-content-end">
+        <a href="@Url.Action("IhaleListeleme", "Ihale")" class="btn btn-secondary ml-2">Sıfırla</a>
+        <button type="submit" class="btn btn-primary">Listele</button>
+    </div>
+</form>
+<br />
+<table class="table">
+    <h4 style="color:dimgrey;">İhale Listesi</h4>
+    <thead>
+        <tr>
+            <th>İhale Numarası</th>
+            <th>İhale Adı</th>
+            <th>Marka Adı</th>
+            <th>Model Adı</th>
+            <th>Bireysel/Kurumsal</th>
+            <th>İhale Başlangıç</th>
+            <th>İhale Bitiş</th>
+            <th>Statü</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @index
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IhaleAdi)
+                </td>
+                     <td>
+                    @Html.DisplayFor(modelItem => item.MarkaAdi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModelAdi)
+                </td>
+                <td>
+                    @if (item.BireyselKurumsalID == 1)
+                    {
+                        @:Bireysel
+                    }
+                    else if (item.BireyselKurumsalID == 2)
+                    {
+                        @:Kurumsal
+                    }
+                </td>
+                <td>
+                    @item.IhaleBaslangicTarihi
+                </td>
+                <td>
+                    @item.IhaleBitisTarihi
+                </td>
+                <td>
+                    @switch (item.IhaleStatuID)
+                    {
+                        case 1:
+                            @:Başlamadı
+                            break;
+                        case 2:
+                            @:Başladı
+                            break;
+                        case 3:
+                            @:Bitti
+                            break;
+                        case 4:
+                            @:İptal
+                            break;
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", "Ihale", new { id = item.IhaleID })" class="btn btn-success me-2">Düzenle</a>
+             
+                </td>
+                <td>
+                    <a href="@Url.Action("Delete", "Ihale", new { id = item.IhaleID })" class="btn btn-danger me-2" onclick="return confirm('Silmek istediğinize emin misiniz?')">Sil</a>
+                </td>
+            </tr>
+            index++;
+        }
+    </tbody>
+</table>
+
+@*<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">İhale Silme Onayı</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                İhaleyi Silmek istediğinizden emin misiniz?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hayır</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Evet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var deleteId;
+
+        // Store the id of the item to delete
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            deleteId = button.data('id');
+        });
+
+        // Handle click on "Evet" button
+        $('#confirmDelete').click(function () {
+            $.post('@Url.Action("Delete", "Ihale")', { id: deleteId })
+                .done(function () {
+                    window.location.reload();
+                })
+                .fail(function () {
+                    alert('Silme işlemi başarısız oldu.');
+                });
+        });
+    });
+</script>*@

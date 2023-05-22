@@ -1,0 +1,96 @@
+﻿@model AracIhale.CoreMVC.Models.VM.IhaleListesi
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Ihale Duzenle Sayfasi</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IhaleID" class="control-label"></label>
+                <input asp-for="IhaleID" class="form-control" />
+                <span asp-validation-for="IhaleID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IhaleAdi" class="control-label"></label>
+                <input asp-for="IhaleAdi" class="form-control" />
+                <span asp-validation-for="IhaleAdi" class="text-danger"></span>
+            </div>  <div class="form-group">
+                <label asp-for="MarkaAdi" class="control-label"></label>
+                <input asp-for="MarkaAdi" class="form-control" />
+                <span asp-validation-for="MarkaAdi" class="text-danger"></span>
+            </div>  <div class="form-group">
+                <label asp-for="ModelAdi" class="control-label"></label>
+                <input asp-for="ModelAdi" class="form-control"  />
+                <span asp-validation-for="ModelAdi" class="text-danger" ></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BireyselKurumsalID" class="control-label"></label>
+                <input asp-for="BireyselKurumsalID" class="form-control" />
+                <span asp-validation-for="BireyselKurumsalID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KurumsalSirketAdi" class="control-label"></label>
+                <input asp-for="KurumsalSirketAdi" class="form-control" />
+                <span asp-validation-for="KurumsalSirketAdi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IhaleStatuID" class="control-label"></label>
+                <input asp-for="IhaleStatuID" class="form-control" />
+                <span asp-validation-for="IhaleStatuID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IhaleBaslangicTarihi" class="control-label"></label>
+                <input asp-for="IhaleBaslangicTarihi" class="form-control" />
+                <span asp-validation-for="IhaleBaslangicTarihi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IhaleBaslangicSaati" class="control-label"></label>
+                <input asp-for="IhaleBaslangicSaati" class="form-control" />
+                <span asp-validation-for="IhaleBaslangicSaati" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IhaleBitisTarihi" class="control-label"></label>
+                <input asp-for="IhaleBitisTarihi" class="form-control" />
+                <span asp-validation-for="IhaleBitisTarihi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IhaleBitisSaati" class="control-label"></label>
+                <input asp-for="IhaleBitisSaati" class="form-control" />
+                <span asp-validation-for="IhaleBitisSaati" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AracID" class="control-label"></label>
+                <input asp-for="AracID" class="form-control" />
+                <span asp-validation-for="AracID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IhaleBaslangicFiyati" class="control-label"></label>
+                <input asp-for="IhaleBaslangicFiyati" class="form-control" />
+                <span asp-validation-for="IhaleBaslangicFiyati" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinimumAlimFiyati" class="control-label"></label>
+                <input asp-for="MinimumAlimFiyati" class="form-control" />
+                <span asp-validation-for="MinimumAlimFiyati" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Kaydet" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Listeye Geri Don</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

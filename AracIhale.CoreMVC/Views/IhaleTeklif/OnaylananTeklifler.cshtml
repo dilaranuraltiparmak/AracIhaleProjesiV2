@@ -1,0 +1,58 @@
+﻿@model IEnumerable<AracIhale.CoreMVC.Models.VM.OnaylananTeklif>
+
+@{
+    ViewData["Title"] = "OnaylananTeklifler";
+    int sayac = 1;
+}
+
+<h1>Onaylanan Teklifler Listesi</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Onaylanan Teklif Numarası
+            </th>
+        
+            <th>
+                @Html.DisplayNameFor(model => model.Kullanici.KullaniciAdi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IhaleListesi.IhaleAdi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OnaylanmaTarihi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeklifFiyati)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @sayac
+            </td>
+    
+            <td>
+                @Html.DisplayFor(modelItem => item.Kullanici.KullaniciAdi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IhaleListesi.IhaleAdi)
+            </td>
+            <td>
+              @(item.OnaylanmaTarihi?.ToString("dd/MM/yyyy"))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TeklifFiyati)
+            </td>
+     
+        </tr>
+            sayac++;
+}
+    </tbody>
+</table>
+<br />
+<a href="@Url.Action("AracListeleme", "Ihale")" class="btn btn-secondary">İhale Listesine Dön</a>

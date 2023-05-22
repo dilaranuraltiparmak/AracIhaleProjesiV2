@@ -1,0 +1,167 @@
+﻿@using System.Runtime.Serialization
+@using AracIhale.CoreMVC.Extension;
+@using Microsoft.AspNetCore.Http
+@using AracIhale.CoreMVC.Enums;
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var user = HttpContextAccessor.HttpContext?.Session.MySessionGet<string>("Ad");
+    var rolID = HttpContextAccessor.HttpContext?.Session.MySessionGet<int>("RolID");
+    var kullaniciadi = HttpContextAccessor.HttpContext?.Session.MySessionGet<string>("KullaniciAdi");
+    var roleName = rolID.HasValue ? KullaniciRol.GetRoleName(rolID.Value) : "Bilinmeyen";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>Arac İhale Projesi</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- site icon -->
+    <link rel="icon" href="~/Contents/login-form-20/images/" type="image/png" />
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="/Contents/pluto-1.0.0/css/bootstrap.min.css" />
+    <!-- site css -->
+    <link rel="stylesheet" href="/Contents/pluto-1.0.0/style.css" />
+    <!-- responsive css -->
+    <link rel="stylesheet" href="/Contents/pluto-1.0.0/css/responsive.css" />
+    <!-- color css -->
+    <link rel="stylesheet" href="/Contents/pluto-1.0.0/css/colors.css" />
+    <!-- select bootstrap -->
+    <link rel="stylesheet" href="/Contents/pluto-1.0.0/css/bootstrap-select.css" />
+    <!-- scrollbar css -->
+    <link rel="stylesheet" href="/Contents/pluto-1.0.0/css/perfect-scrollbar.css" />
+    <!-- custom css -->
+    <link rel="stylesheet" href="/Contents/pluto-1.0.0/css/custom.css" />
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="dashboard dashboard_1" >
+    <div class="full_container">
+        <div class="inner_container">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+                <div class="sidebar_blog_1">
+                    <div class="sidebar-header">
+                        <div class="logo_section">
+                            <a href="index.html"><img class="img-responsive" src="~/contents/pluto-1.0.0/images/user 2.png" /> </a>
+                        </div>
+                    </div>
+                    <div class="sidebar_user_info">
+                        <div class="icon_setting"></div>
+                        <div class="user_profle_side">
+                        
+                            <div class="user_info">
+                                <h6>Adı</h6>@kullaniciadi
+                                <br />
+                                <span>( @roleName )</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sidebar_blog_2">
+                    <ul class="list-unstyled components">
+                        <li class="active">
+                            <a href="/Ihale/AracListeleme"><i class="fa fa-list yellow_color"></i> <span>İhale Araç Listesi</span></a>
+                            <ul class="collapse list-unstyled" id="dashboard"></ul>
+                        </li>
+                        @if (rolID == 1 || rolID == 3)
+                        {
+                            <li><a href="/Ihale/IhaleListeleme"><i class="fa fa-clock-o orange_color"></i> <span>İhale Listesi</span></a></li>
+                            <li><a href="/IhaleTeklif/Teklifler"><i class="fa fa-shopping-bag purple_color "></i> <span>İhale Teklif Listesi</span></a></li>
+                       
+                        }
+                         <li><a href="/Giris/Giris"><i class="fa fa-stop yellow_color"></i> <span>Çıkış Yap</span></a></li>
+                    </ul>
+
+             
+                    </div>
+                  
+                </div>
+
+
+            </nav>
+
+        </div>
+
+        <!-- end sidebar -->
+        <!-- right content -->
+        <div id="content">
+            <!-- topbar -->
+            <div class="topbar">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <div class="full">
+                        <button type="button" id="sidebarCollapse" class="sidebar_toggle"><i class="fa fa-bars"></i></button>
+                        <div class="logo_section">
+                            <a href="index.html"><img class="img-responsive"  src="~/contents/pluto-1.0.0/images/user 2.png" /> </a>
+                        </div>
+                        <div class="right_topbar">
+                            <div class="icon_info">
+                                <ul>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <!-- end topbar -->
+            <!-- dashboard inner -->
+            <!-- dashboard inner -->
+            <div class=" midde_cont">
+                @RenderBody()
+                <!-- footer -->
+                <div class="container-fluid">
+                    <div class="footer">
+                        <p>
+                          ARAC IHALE PROJESİ  2023 yılında
+                           Dilara Nur Altıparmak tarafından yapılmıştır
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- end dashboard inner -->
+        </div>
+    </div>
+    </div>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>
+<!-- jQuery -->
+<script src="/Contents/pluto-1.0.0/js/jquery.min.js"></script>
+<script src="/Contents/pluto-1.0.0/js/popper.min.js"></script>
+<script src="/Contents/pluto-1.0.0/js/bootstrap.min.js"></script>
+<!-- wow animation -->
+<script src="/Contents/pluto-1.0.0/js/animate.js"></script>
+<!-- select country -->
+<script src="/Contents/pluto-1.0.0/js/bootstrap-select.js"></script>
+<!-- owl carousel -->
+<script src="/Contents/pluto-1.0.0/js/owl.carousel.js"></script>
+<!-- chart js -->
+<script src="/Contents/pluto-1.0.0/js/Chart.min.js"></script>
+<script src="/Contents/pluto-1.0.0/js/Chart.bundle.min.js"></script>
+<script src="/Contents/pluto-1.0.0/js/utils.js"></script>
+<script src="/Contents/pluto-1.0.0/js/analyser.js"></script>
+<!-- nice scrollbar -->
+<script src="/Contents/pluto-1.0.0/js/perfect-scrollbar.min.js"></script>
+<script>var ps = new PerfectScrollbar('#sidebar');</script>
+<!-- custom js -->
+<script src="/Contents/pluto-1.0.0/js/custom.js"></script>
+<script src="/Contents/pluto-1.0.0/js/chart_custom_style1.js"></script>
+
+
