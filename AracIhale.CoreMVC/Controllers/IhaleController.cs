@@ -1,10 +1,12 @@
 ﻿using AracIhale.CoreMVC.Models.VM;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace AracIhale.CoreMVC.Controllers
 {
@@ -17,11 +19,11 @@ namespace AracIhale.CoreMVC.Controllers
         {
             _apiGateway = apiGateway;
         }
-
-        public async Task<IActionResult> AracListeleme()
+        [Authorize]
+        public async Task<IActionResult> AracListeleme(int page=1)
         {
             var ihaleler = await _apiGateway.ListIhale();
-            return View(ihaleler);
+            return View(ihaleler.ToPagedList(page,6));
         }
 
         public IActionResult AracIhaleOlusturma()
@@ -33,8 +35,8 @@ namespace AracIhale.CoreMVC.Controllers
         {
             return View();
         }
-
-        public async Task<IActionResult> IhaleListeleme()
+		[Authorize]
+		public async Task<IActionResult> IhaleListeleme()
         {
             var ihaleler = await _apiGateway.ListIhale();
             return View(ihaleler);
@@ -53,8 +55,8 @@ namespace AracIhale.CoreMVC.Controllers
             return RedirectToAction("AracListeleme");
 
         }
-
-        public async Task<IActionResult> Delete(int id)
+		[Authorize]
+		public async Task<IActionResult> Delete(int id)
         {
             var result = await _apiGateway.DeleteIhale(id);
             if (result)
@@ -67,7 +69,8 @@ namespace AracIhale.CoreMVC.Controllers
             }
         }
 
-        [HttpGet]
+		[Authorize]
+		[HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
 

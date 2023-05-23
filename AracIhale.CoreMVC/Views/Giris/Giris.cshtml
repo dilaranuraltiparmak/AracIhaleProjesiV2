@@ -20,7 +20,7 @@
 
 <body class="img js-fullheight" >
 
-	<!-- Sayfa içeriği buraya gelecek -->
+
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center">
@@ -36,8 +36,14 @@
 								<input type="text" name="KullaniciAdi" class="form-control" placeholder="Kullanıcı Adı" value="@Context.Request.Cookies["username"]" required>
 							</div>
 							<div class="form-group">
-								<input id="password-field" type="password" name="Sifre" class="form-control" placeholder="Sifre" required>
+								<input id="password-field" type="password" name="Sifre" class="form-control" placeholder="Şifre" required>
 								<span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+								@if (!ViewData.ModelState.IsValid)
+								{
+									<div class="text-center">
+										<span class="text-danger">Şifre yanlış</span>
+									</div>
+								}
 							</div>
 							<div class="form-group">
 								<label class="checkbox-wrap checkbox-primary">
@@ -50,9 +56,7 @@
 								<button type="submit" class="form-control btn btn-primary submit px-3">Giriş Yap</button>
 							</div>
 						</form>
-
-					</div>
-				</div>
+						</div>
 			</div>
 		</div>
 	</section>
@@ -81,4 +85,16 @@
 		var parts = value.split("; " + name + "=");
 		if (parts.length == 2) return parts.pop().split(";").shift();
 	}
+</script>
+<script>
+	// İlgili göz simgesinin tıklanabilirliğini ve şifrenin görüntülenmesini/gizlenmesini sağlayan JavaScript kodu
+	var togglePassword = document.querySelector('.toggle-password');
+	var passwordField = document.querySelector('#password-field');
+
+	togglePassword.addEventListener('click', function () {
+		var type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+		passwordField.setAttribute('type', type);
+		this.classList.toggle('fa-eye');
+		this.classList.toggle('fa-eye-slash');
+	});
 </script>

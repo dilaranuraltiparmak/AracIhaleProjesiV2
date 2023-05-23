@@ -1,12 +1,12 @@
-﻿@model IEnumerable<AracIhale.CoreMVC.Models.VM.IhaleListesi>
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Mvc.Core.Common
+@using AracIhale.CoreMVC.Models.VM
+
+@model IPagedList<IhaleListesi>
 @{
-   
+
 }
-
-
-
-
-
 
 <form class="bg-white rounded p-3" action="@Url.Action("Listele", "Ihale")" method="post">
     <h4 style="color:dimgrey;">Kriterler</h4>
@@ -42,51 +42,63 @@
 <br />
 <a href="@Url.Action("OnaylananTeklifler", "IhaleTeklif")" class="btn btn-info">Onaylanan Teklifleri Gör</a>
 
-    <tbody>
-    <div class="row">
-        @foreach (var item in Model)
-        {
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <img src="@item.Araclar.Foto" class="card-img-top" alt="Araç Fotoğrafı" style="height: 200px; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.IhaleAdi</h5>
-                        <h6 class="card-title">@item.MarkaAdi - @item.ModelAdi</h6>
-                        <p class="card-text">
-                            @if (item.BireyselKurumsalID == 1)
-                            {
-                                @:Bireysel
-                            }
-                            else if (item.BireyselKurumsalID == 2)
-                            {
-                                @:Kurumsal
-                            }
-                        </p>
-                        <p class="card-text">
-                            @switch (item.IhaleStatuID)
-                            {
-                                case 1:
-                                    @:Başlamadı
-                                    break;
-                                case 2:
-                                    @:Başladı
-                                    break;
-                                case 3:
-                                    @:Bitti
-                                    break;
-                                case 4:
-                                    @:İptal
-                                    break;
-                            }
-                        </p>
-                        <p class="card-text">Başlangıç Fiyatı: @item.IhaleBaslangicFiyati ₺</p>
-                        <p class="card-text">Minimum Alım Fiyatı: @item.MinimumAlimFiyati ₺</p>
-                        <a href="@Url.Action("TeklifVer", "IhaleTeklif", new { id = item.IhaleID })" class="btn btn-warning">Teklif Ver</a>
-                    </div>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <img src="@item.Araclar.Foto" class="card-img-top" alt="Araç Fotoğrafı" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">@item.IhaleAdi</h5>
+                    <h6 class="card-title">@item.MarkaAdi - @item.ModelAdi</h6>
+                    <p class="card-text">
+                        @if (item.BireyselKurumsalID == 1)
+                        {
+                            @:Bireysel
+                        }
+                        else if (item.BireyselKurumsalID == 2)
+                        {
+                            @:Kurumsal
+                        }
+                    </p>
+                    <p class="card-text">
+                        @switch (item.IhaleStatuID)
+                        {
+                            case 1:
+                                @:Başlamadı
+                                break;
+                            case 2:
+                                @:Başladı
+                                break;
+                            case 3:
+                                @:Bitti
+                                break;
+                            case 4:
+                                @:İptal
+                                break;
+                        }
+                    </p>
+                    <p class="card-text">Başlangıç Fiyatı: @item.IhaleBaslangicFiyati ₺</p>
+                    <p class="card-text">Minimum Alım Fiyatı: @item.MinimumAlimFiyati ₺</p>
+                    <a href="@Url.Action("TeklifVer", "IhaleTeklif", new { id = item.IhaleID })" class="btn btn-warning">Teklif Ver</a>
                 </div>
             </div>
-        }
-    </div>
-    </tbody>
+        </div>
+    }
+</div>
 
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("AracListeleme", new { page }), new PagedListRenderOptions
+    {
+    LiElementClasses = new[] { "page-item" },
+    PageClasses = new[] { "page-link" },
+    UlElementClasses = new[] { "pagination" },
+    DisplayLinkToFirstPage = X.PagedList.Web.Common.PagedListDisplayMode.IfNeeded,
+    DisplayLinkToLastPage = X.PagedList.Web.Common.PagedListDisplayMode.IfNeeded,
+    DisplayLinkToPreviousPage = X.PagedList.Web.Common.PagedListDisplayMode.IfNeeded,
+    DisplayLinkToNextPage = X.PagedList.Web.Common.PagedListDisplayMode.IfNeeded,
+    LinkToPreviousPageFormat = "<span aria-hidden=\"true\">&laquo;</span>",
+    LinkToNextPageFormat = "<span aria-hidden=\"true\">&raquo;</span>",
+    MaximumPageNumbersToDisplay = 5,
+    DisplayEllipsesWhenNotShowingAllPageNumbers = true
+    })
 

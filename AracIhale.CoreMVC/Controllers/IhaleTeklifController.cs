@@ -1,4 +1,5 @@
 ﻿using AracIhale.CoreMVC.Models.VM;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -14,8 +15,8 @@ namespace AracIhale.CoreMVC.Controllers
         {
             _apiGateway = apiGateway;
         }
-
-        [HttpGet]
+		[Authorize]
+		[HttpGet]
         public async Task<IActionResult> TeklifVer(int id)
         {
 
@@ -39,7 +40,8 @@ namespace AracIhale.CoreMVC.Controllers
         }
 
 
-        [HttpGet]
+		[Authorize]
+		[HttpGet]
         public async Task<IActionResult> Teklifler()
         {
             var ihaleler = await _apiGateway.ListIhaleTeklif();
@@ -61,7 +63,8 @@ namespace AracIhale.CoreMVC.Controllers
             }
         }
 
-        public async Task<IActionResult> EditTeklif(int id)
+		[Authorize]
+		public async Task<IActionResult> EditTeklif(int id)
         {
             var result = await _apiGateway.DeleteIhale(id);
             if (result)
@@ -88,7 +91,9 @@ namespace AracIhale.CoreMVC.Controllers
             }
 
         }
-        [HttpGet]
+
+		[Authorize]
+		[HttpGet]
         public async Task<IActionResult> OnaylananTeklifler(int id)
         {
 			var ihaleler = await _apiGateway.ListIhaleTeklifOnay();

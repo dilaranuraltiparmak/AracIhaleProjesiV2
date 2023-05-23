@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System;
 using System.Net.Http.Json;
 using AracIhale.CoreMVC.Extension;
+using System.Net;
 
 namespace AracIhale.CoreMVC.Controllers
 {
@@ -45,24 +46,33 @@ namespace AracIhale.CoreMVC.Controllers
 
                 if (rememberMe)
                 {
-                    // Kullanıcı adını çerezlere kaydediyoruz
                     CookieOptions options = new CookieOptions();
-                    options.Expires = DateTime.Now.AddDays(30); // Çerezin 30 gün boyunca geçerli olmasını sağlıyoruz
+                    options.Expires = DateTime.Now.AddDays(30); 
                     Response.Cookies.Append("username", model.KullaniciAdi, options);
                 }
 
-                HttpContext.Session.MySessionSet("Ad", model.KullaniciAdi);// Kullanıcı adını bir Session'a kaydediyoruz
-                HttpContext.Session.MySessionSet("KullaniciID", user.KullaniciID);// Kullanıcı IDsini bir Session'a kaydediyoruz
-                HttpContext.Session.MySessionSet("KullaniciAdi", user.Ad); // Kullanıcı gerçek adını bir Session'a kaydediyoruz
+                HttpContext.Session.MySessionSet("Ad", model.KullaniciAdi);
+                HttpContext.Session.MySessionSet("KullaniciID", user.KullaniciID);
+                HttpContext.Session.MySessionSet("KullaniciAdi", user.Ad); 
                 return RedirectToAction("AracListeleme", "Ihale");
             }
             else
             {
-                // Giriş başarısız oldu, hata mesajını göster ve kullanıcıyı geri yönlendir
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                var statusCode = response.StatusCode;
+
+                if (statusCode == HttpStatusCode.Unauthorized)
+                {
+             
+                    ModelState.AddModelError(string.Empty, "Invalid password. Please check your password and try again.");
+                }
+                else
+                {
+                   
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                }
+
                 return View(model);
             }
-
         }
     }
 }
